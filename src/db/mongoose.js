@@ -1,9 +1,6 @@
 const mongoose = require('mongoose')
-const nconf = require('nconf')
 
-nconf.use('file', {file: './config/dev.json'})
-
-mongoose.connect(nconf.get('mongodbUrl'), 
+mongoose.connect(process.env.MONGODB_URL, 
 {
     useNewUrlParser: true,
     useUnifiedTopology: true,

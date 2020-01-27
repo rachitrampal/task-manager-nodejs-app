@@ -19,7 +19,7 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 //delete task by Id
-router.delete('/tasks/:taskId(*)', auth, async (req, res) => {
+router.delete('/tasks/:taskId', auth, async (req, res) => {
     const taskId = req.params.taskId
     try {
         const task = await Task.findOneAndRemove({_id: taskId, owner: req.user._id})
@@ -33,7 +33,7 @@ router.delete('/tasks/:taskId(*)', auth, async (req, res) => {
 })
 
 //Update task by Id
-router.patch('/tasks/:taskId(*)', auth, async (req, res) => {
+router.patch('/tasks/:taskId', auth, async (req, res) => {
     const taskId = req.params.taskId
     const validOperators = ['description', 'completed']
     const updates = Object.keys(req.body)
@@ -63,7 +63,7 @@ router.patch('/tasks/:taskId(*)', auth, async (req, res) => {
 })
 
 //get all tasks 
-router.get('/tasks', auth, async (req, res) => {
+router.get('/tasks/me', auth, async (req, res) => {
     const match = {}
     const sort = {}
 
@@ -94,7 +94,7 @@ router.get('/tasks', auth, async (req, res) => {
 })
 
 //get task by Id
-router.get('/tasks/:taskId(*)', auth, async (req, res) => {
+router.get('/tasks/:taskId', auth, async (req, res) => {
     const taskId = req.params.taskId
     try {
         const task = await Task.findOne({_id: taskId, owner: req.user._id})

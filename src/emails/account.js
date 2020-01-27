@@ -1,15 +1,10 @@
 const sgMail = require('@sendgrid/mail')
-const nconf = require('nconf')
 
-nconf.use('file', {file: './config/dev.json'})
-const sendGridAPIKey = nconf.get('sendGridAPIKey')
-
-sgMail.setApiKey(sendGridAPIKey)
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 
 const sendWelcomeEmail = (email, name) => {
     try {
-        console.log('sending mail')
         sgMail.send({
             to: email,
             from: 'rachitrampal05@gmail.com',

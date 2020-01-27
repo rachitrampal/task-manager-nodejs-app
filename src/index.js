@@ -1,14 +1,11 @@
 const express = require('express')
-const nconf = require('nconf')
 require('./db/mongoose')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/tasks')
 
 const app = express()
 
-nconf.use('file', {file: './config/dev.json'})
-
-const port = nconf.get('port')
+const port = process.env.PORT
 
 app.use(express.json())
 

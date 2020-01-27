@@ -75,7 +75,7 @@ router.get('/users/me', auth, async (req, res) => {
 })
 
 //Get single users
-router.get('/users/:userId(*)', async (req, res) => {
+router.get('/users/:userId', async (req, res) => {
     const userId = req.params.userId
     try {
         const user = await User.findById(userId)
@@ -88,9 +88,8 @@ router.get('/users/:userId(*)', async (req, res) => {
     }
 })
 
-//Update user by Id
+//Update my user
 router.patch('/users/me', auth, async (req, res) => {
-    const userId = req.user._id
     const validOperators = ['name', 'age', 'email', 'password']
     const updates = Object.keys(req.body)
     const isValidOperation = updates.every(update => validOperators.includes(update))
@@ -107,7 +106,7 @@ router.patch('/users/me', auth, async (req, res) => {
 
         updates.forEach( update => { req.user[update] = req.body[update] })
         await req.user.save()
-        res.send(user)
+        res.send(req.user)
     } catch (error) {
         res.status(500).send(error)
     }
@@ -154,7 +153,6 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
 //get image of the user 
 router.get('/:id', async (req, res) => {
     try {
-        console.log(req.params.id)
         const user = await User.findById(req.params.id)
 
         if(!user || !user.avatar) {
